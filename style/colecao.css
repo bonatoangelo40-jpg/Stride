@@ -1,0 +1,110 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f6f6f6;
+    color: #333;
+}
+
+header {
+    background-color: black;
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: opacity 0.3s;
+}
+
+header a:hover {
+    opacity: 0.7;
+}
+
+#carrinho-contador {
+    background: red;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.pagina-produto {
+    max-width: 1100px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.imagem-produto {
+    flex: 1;
+    min-width: 280px;
+    text-align: center;
+}
+
+.imagem-produto img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    cursor: zoom-in;
+}
+
+.imagem-produto img:hover {
+    transform: scale(1.05);
+}
+
+.info-produto {
+    flex: 1;
+    min-width: 280px;
+}
+
+.info-produto h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.preco {
+    font-size: 1.6rem;
+    color: #00a650;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.descricao {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.btn-comprar {
+    background-color: black;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-comprar:hover {
+    background-color: #333;
+}
+
+@media (max-width: 768px) {
+    .pagina-produto {
+        flex-direction: column;
+        text-align: center;
+    }
+}

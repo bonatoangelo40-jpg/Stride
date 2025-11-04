@@ -1,0 +1,250 @@
+/* ============================= */
+/* RESET BÁSICO */
+/* ============================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ============================= */
+/* VÍDEO DE FUNDO */
+/* ============================= */
+#video-fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2; /* atrás de tudo */
+}
+
+/* ============================= */
+/* CORPO */
+/* ============================= */
+body {
+  margin: 0;
+  color: #222;
+  background: transparent;
+}
+
+/* ============================= */
+/* CABEÇALHO */
+/* ============================= */
+/* Cabeçalho */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 5%;
+  background: rgba(17, 17, 17, 0.9);
+  display: flex;
+  align-items: center;
+  color: white;
+  z-index: 10;
+}
+
+/* Logo à esquerda */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* Nav centralizado usando absolute */
+nav {
+  position: absolute;
+  left: 50%;            /* posiciona o início do nav no meio da tela */
+  transform: translateX(-50%); /* move metade da largura do nav pra esquerda → centraliza */
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 30px; /* espaçamento entre os links */
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: #5e5a5a;
+}
+
+/* ============================= */
+/* HERO */
+/* ============================= */
+.hero {
+  height: 100vh; /* ocupa tela toda */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* camada escura */
+  z-index: -1;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* Botão Explorar */
+.botao-explorar {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: #000000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+  text-decoration: none;
+}
+
+.botao-explorar:hover {
+  background: #5e5a5a;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================= */
+/* PRODUTOS */
+/* ============================= */
+.produtos {
+  padding: 100px 5% 50px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9); /* leve contraste sobre vídeo */
+}
+
+.produtos h2 {
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+  color: #333;
+}
+/* Cabeçalho */
+header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  z-index: 1000;
+}
+
+/* Ícone do menu burger */
+.menu-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1001;
+}
+
+.menu-burger span {
+  background-color: white;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* Menu padrão */
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+/* Modo responsivo */
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 70px; /* abre logo abaixo do header */
+    left: 0;
+    width: 100%;
+    padding: 15px 30px;
+  }
+
+  nav ul.ativo {
+    display: flex;
+  }
+
+  .menu-burger {
+    display: flex;
+  }
+}

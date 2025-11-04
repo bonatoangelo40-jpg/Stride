@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar Compra - Stride</title>
+  <link rel="stylesheet" href="../style/style-finalizar.css">
+    <link rel="icon" type="image/png"
+    href="../Imgens/logo.png">
+</head>
+<body>
+  <div class="checkout-container">
+    <h1>Finalizar Compra</h1>
+
+    <!-- Resumo do Pedido -->
+    <section class="resumo">
+      <h2>Resumo do Pedido</h2>
+      <table id="tabela-pedido">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Qtd</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="lista-pedido">
+          <!-- Itens do carrinho pelo JS -->
+        </tbody>
+      </table>
+      <p class="total" id="total-pedido">Total: R$ 0,00</p>
+    </section>
+
+    <!-- Formulário de Dados -->
+    <section class="dados">
+      <h2>Seus Dados</h2>
+      <form id="form-finalizar">
+        <input type="text" placeholder="Nome completo" required>
+        <input type="email" placeholder="E-mail" required>
+        <input type="text" placeholder="Endereço completo" required>
+        <input type="text" placeholder="CEP" required>
+        
+        <h2>Forma de Pagamento</h2>
+        <select required>
+          <option value="">Selecione</option>
+          <option value="cartao">Cartão de Crédito</option>
+          <option value="pix">PIX</option>
+          <option value="boleto">Boleto</option>
+        </select>
+
+        <button type="submit" class="btn-confirmar">Confirmar Compra</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="../Java/scripit-finalizar.js"></script>
+</body>
+</html>
