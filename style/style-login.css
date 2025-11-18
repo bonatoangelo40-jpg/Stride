@@ -10,7 +10,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #111, #ff4747);
+  background: linear-gradient(135deg, #111, #ffffff);
 }
 
 .container {
@@ -62,13 +62,13 @@ input {
 }
 
 input:focus {
-  border-color: #ff4747;
+  border-color: #000000;
   box-shadow: 0 0 6px rgba(255,71,71,0.5);
 }
 
 .btn {
   width: 100%;
-  background: #ff4747;
+  background: #000000;
   color: white;
   border: none;
   padding: 14px;
@@ -81,7 +81,7 @@ input:focus {
 }
 
 .btn:hover {
-  background: #e63c3c;
+  background: #000000;
   transform: translateY(-2px);
 }
 
@@ -92,7 +92,7 @@ input:focus {
 }
 
 .link a {
-  color: #ff4747;
+  color: #000000;
   font-weight: 600;
   text-decoration: none;
   transition: 0.3s;

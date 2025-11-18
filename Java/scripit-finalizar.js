@@ -1,6 +1,6 @@
 // Recupera o carrinho do localStorage
 const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-
+ 
 // Agrupa os produtos iguais (para contar quantidade)
 const carrinhoAgrupado = carrinho.reduce((acc, item) => {
   let existente = acc.find(p => p.nome === item.nome);
@@ -12,10 +12,10 @@ const carrinhoAgrupado = carrinho.reduce((acc, item) => {
   }
   return acc;
 }, []);
-
+ 
 const listaPedido = document.getElementById("lista-pedido");
 const totalPedido = document.getElementById("total-pedido");
-
+ 
 // Renderiza itens
 let total = 0;
 carrinhoAgrupado.forEach(item => {
@@ -29,9 +29,9 @@ carrinhoAgrupado.forEach(item => {
   listaPedido.appendChild(tr);
   total += item.subtotal;
 });
-
+ 
 totalPedido.textContent = `Total: R$ ${total.toFixed(2)}`;
-
+ 
 // Captura envio do formulário
 document.getElementById("form-finalizar").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -39,3 +39,5 @@ document.getElementById("form-finalizar").addEventListener("submit", (e) => {
   localStorage.removeItem("carrinho");
   window.location.href = "stride.html"; // volta pra home
 });
+ 
+ 

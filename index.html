@@ -1,50 +1,518 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stride - Tênis Online</title>
-  <link rel="stylesheet" href="style/style.css">
-  <link rel="icon" type="image/png" href="Imgens/logo.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stride — Cinemática 3D</title>
+ 
+  <!--
+    PÁGINA: Cinemática 3D (Stride)
+    INSTRUÇÕES RÁPIDAS:
+    - Substitua os paths de: data-video, .prod-img src e logo se necessário.
+    - Vídeo recomendado: loop suave, alta qualidade (mp4/webm), 1280px+.
+    - Imagens de produto: 800x800 ou similar (transparent backgrounds funcionam bem).
+    - Este arquivo é autocontido (HTML + CSS + JS). Copie e cole como index_cinematic.html.
+  -->
+ 
+  <style>
+    /* =========================
+       RESET E BASE
+       ========================= */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root{
+      --accent: #ffffff;
+      --bg-dark: #070709;
+      --glass: rgba(255,255,255,0.06);
+      --glass-strong: rgba(0,0,0,0.45);
+      --white: #ffffff;
+    }
+    html,body{height:100%; font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif; color:var(--white); background:var(--bg-dark); -webkit-font-smoothing:antialiased;}
+    a{color:inherit; text-decoration:none;}
+ 
+    /* =========================
+       LAYOUT PRINCIPAL
+       ========================= */
+    .wrap { min-height:100vh; display:flex; flex-direction:column; }
+ 
+    /* =========================
+       VIDEO HERO (fundo)
+       ========================= */
+    .hero-wrap {
+      position:relative;
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+ 
+    /* Vídeo de fundo — preencher tela */
+    .bg-video {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+      z-index:0;
+    }
+ 
+    /* camada de gradiente e granular para contraste */
+    .hero-overlay {
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(6,6,8,0.45) 0%, rgba(6,6,8,0.65) 60%, rgba(6,6,8,0.85) 100%);
+      z-index:1;
+      pointer-events:none;
+    }
+ 
+    /* header (logo + nav + ações) */
+    header {
+      position:fixed;
+      top:18px;
+      left:0;
+      right:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 5%;
+      z-index:50;
+      gap:12px;
+    }
+    .logo { font-weight:900; letter-spacing:3px; font-size:20px; color:var(--white); }
+    .header-actions { display:flex; gap:10px; align-items:center; }
+ 
+    .btn {
+      padding:10px 14px;
+      border-radius:10px;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .btn-ghost {
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.08);
+      color:var(--white);
+    }
+    .btn-primary {
+      background:var(--accent);
+      color:#000;
+    }
+ 
+    /* =========================
+       HERO CONTENT (center)
+       ========================= */
+    .hero-content {
+      position:relative;
+      z-index:10;
+      width:min(1200px,94%);
+      margin:auto;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding-top:60px;
+      padding-bottom:80px;
+    }
+ 
+    /* texto principal */
+    .hero-text {
+      max-width:760px;
+    }
+    .eyebrow { color:rgba(255,255,255,0.6); font-weight:700; letter-spacing:1px; margin-bottom:14px; }
+    h1 {
+      font-size:48px;
+      line-height:1.02;
+      margin-bottom:14px;
+      font-weight:900;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    p.lead { color:rgba(255,255,255,0.85); margin-bottom:18px; font-size:18px; }
+ 
+    .cta-row { display:flex; gap:12px; align-items:center; margin-bottom:24px; }
+    .meta { color:rgba(255,255,255,0.65); font-size:14px; }
+ 
+    /* destaque 3D: cartão com tilt e sombra */
+    .showcase {
+      perspective:1200px;
+    }
+    /* .product-card {
+      width:100%;
+      height:300px;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform-style:preserve-3d;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      border:1px solid rgba(255,255,255,0.04);
+    } */
+ 
+    /* "produto" real (imagem) */
+    .prod-img {
+      width:62%;
+      max-width:420px;
+      transform:translateZ(60px) rotateX(6deg);
+      transition: transform 0.35s ease;
+      filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+      border-radius: 25px;
+    }
+ 
+    /* info lateral (direita) */
+    .side-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.04);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      height:min-content;
+    }
+    .side-panel h3 { font-size:18px; margin-bottom:6px; }
+    .price { font-size:20px; font-weight:900; color:var(--accent); }
+ 
+    /* =========================
+       SEÇÃO DE DESTAQUES (abaixo do hero)
+       ========================= */
+    .section {
+      padding:48px 5%;
+      background:linear-gradient(180deg, rgba(6,6,6,0.98), rgba(10,10,12,1));
+      color:var(--white);
+    }
+ 
+    .grid-products {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap:22px;
+      margin-top:18px;
+    }
+    .prod-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .25s ease;
+    }
+    .prod-card:hover { transform: translateY(-8px); }
+    .prod-thumb { width:100%; height:200px; border-radius:10px; object-fit:cover; margin-bottom:10px; }
+ 
+    /* pequeno footer */
+    footer { padding:30px 5%; color:rgba(255,255,255,0.6); font-size:14px; background:linear-gradient(180deg, rgba(5,5,5,1), rgba(3,3,3,1)); }
+ 
+    /* =========================
+       HOVER / INTERAÇÃO 3D
+       ========================= */
+    /* estado ativo quando o mouse move dentro da showcase (JS) */
+    .product-card.tilt {
+      transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(1.02);
+    }
+    .product-card.tilt .prod-img {
+      transform: translateZ(80px) rotateX(3deg) rotateY(var(--imgrx));
+    }
+ 
+    /* =========================
+       RESPONSIVIDADE
+       ========================= */
+    @media (max-width:1100px){
+      .hero-content { grid-template-columns: 1fr 360px; gap:18px; }
+      .product-card { height:360px; }
+    }
+    @media (max-width:820px){
+      header { padding:10px 4%; }
+      .hero-content { grid-template-columns: 1fr; padding-top:80px; padding-bottom:48px; }
+      .product-card { order:2; width:100%; height:320px; margin-top:6px; }
+      .side-panel { order:1; }
+      .showcase { order:2; }
+    }
+    @media (max-width:460px){
+      h1 { font-size:28px; }
+      .prod-img { width:76%; }
+      .product-card { height:260px; }
+      .hero-content { padding:22px; }
+    }
+ 
+    /* =========================
+       A11Y e pequenas melhorias
+       ========================= */
+    .visually-hidden { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); border:0; }
+  </style>
 </head>
-
 <body>
-  <!-- Vídeo de fundo -->
-  <video autoplay muted loop id="video-fundo">
-    <source src="Imgens/video nike.mp4" type="video/mp4">
-  </video>
-
-  <header>
-    <div class="logo">STRIDE</div>
-
-    <!-- Ícone do menu burger -->
-    <div class="menu-burger" id="menu-burger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-
-    <nav>
-      <ul id="menu-lista">
-        <li><a href="Html/colecao.html">Masculino</a></li>
-        <li><a href="Html/kids.html">Feminino</a></li>
-        <li><a href="Html/login.html">Login</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Passada firme, estilo único.</h1>
-      <p>Encontre os melhores tênis esportivos e casuais em um só lugar.</p>
-      <a href="Html/colecao.html" class="botao-explorar">Explorar</a>
-    </div>
-  </section>
-
-  <!-- Script -->
-  <script src="Java/inicio.js"></script>
+  <div class="wrap">
+ 
+    <!-- HEADER -->
+    <header role="banner" aria-label="Cabeçalho Stride">
+      <div class="logo">STRIDE</div>
+ 
+      <nav class="header-actions" role="navigation" aria-label="Ações do cabeçalho">
+        <!-- Link para coleção (substitua em produção) -->
+        <a class="btn btn-ghost" href="../ProjetoFinal-Stride/Html/colecao.html" title="Coleção">Coleção</a>
+        <a class="btn btn-ghost" href="../ProjetoFinal-Stride/Html/kids.html" title="Feminino">Feminino</a>
+        <a class="btn btn-primary" href="../ProjetoFinal-Stride/Html/" title="Comprar">Login</a>
+      </nav>
+    </header>
+ 
+    <!-- HERO -->
+    <section class="hero-wrap" aria-label="Seção principal">
+      <!-- Vídeo: substitua o data-video pelo seu arquivo; há fallback para imagem se quiser -->
+      <video class="bg-video" autoplay muted loop playsinline id="bgVideo" data-video="../Imgens/video_nike.mp4" >
+        <!-- Altere os src abaixo para seus vídeos (mp4/webm). Se não tiver, mantenha: -->
+        <source src="../ProjetoFinal-Stride/Imgens/video nike.mp4" type="video/mp4">
+        <source src="" type="video/webm">
+      </video>
+ 
+      <div class="hero-overlay" aria-hidden="true"></div>
+ 
+      <div class="hero-content" role="main">
+        <!-- LEFT: texto + destaque 3D -->
+        <div class="hero-text">
+          <div class="eyebrow">Coleção Outono • 2025</div>
+          <h1>Passada firme, imagem cinematográfica.</h1>
+          <p class="lead">Lançamento com foco em produto: closes, movimento e luz. Crie impacto em cada frame — ideal para edição de campanhas e vitrines digitais.</p>
+ 
+          <div class="cta-row">
+            <a class="btn btn-primary" href="../ProjetoFinal-Stride/Html/colecao.html">Explorar coleção</a>
+            <button class="btn btn-ghost" id="watchLookbook">Ver lookbook</button>
+            <div class="meta">Entrega em 24h • Frete grátis acima de R$199</div>
+          </div>
+ 
+          <!-- Pequena galeria / vantagens -->
+          <div style="display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;">
+            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; font-weight:700;">Close-up 3D</div>
+            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; font-weight:700;">Cor & Textura</div>
+            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; font-weight:700;">Motion</div>
+          </div>
+ 
+          <!-- Secção de thumbnails (apenas amostra) -->
+          <div style="margin-top:22px;">
+            <div style="color:rgba(255,255,255,0.75); font-weight:700; margin-bottom:8px;">Destaques</div>
+            <div style="display:flex; gap:10px;">
+              <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial01.avif" alt="produto 1" style="height:70px; width:70px; object-fit:cover; border-radius:8px;">
+              <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial02.avif" alt="produto 2" style="height:70px; width:70px; object-fit:cover; border-radius:8px;">
+              <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial03.avif" alt="produto 3" style="height:70px; width:70px; object-fit:cover; border-radius:8px;">
+            </div>
+          </div>
+        </div>
+ 
+        <!-- RIGHT: showcase 3D com tilt -->
+        <div>
+          <div class="showcase">
+            <div class="product-card" id="productCard" aria-hidden="false" tabindex="0" role="region" aria-label="Destaque de produto">
+              <!-- Troque src pela imagem do seu tênis (png/jpg/webp). Recomendo fundo transparente ou fundo neutro. -->
+              <img class="prod-img" id="prodImg" src="../ProjetoFinal-Stride/Imgens/tenis.incial05.avif" alt="Tênis Destaque">
+            </div>
+          </div>
+ 
+          <div class="side-panel" style="margin-top:14px;">
+            <h3 id="prodName">Stride Runner X</h3>
+            <div class="price" id="prodPrice">R$ 499,00</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:14px; margin-top:8px;" id="prodDesc">
+              Cabedal respirável, entressola com amortecimento 3D e sola com tração avançada.
+            </div>
+ 
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <a class="btn btn-primary" href="../ProjetoFinal-Stride/Html/colecao.html">Comprar agora</a>
+              <button class="btn btn-ghost" id="addCart">Adicionar ao carrinho</button>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- small hint to scroll -->
+      <div style="position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:40; color:rgba(255,255,255,0.7); font-weight:700;">
+        Role para ver mais ↓
+      </div>
+    </section>
+ 
+    <!-- SEÇÃO DE PRODUTOS -->
+    <section class="section" aria-label="Produtos em destaque">
+      <div style="max-width:1200px; margin:0 auto;">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <h2 style="font-size:22px;">Produtos em destaque</h2>
+          <a href="../ProjetoFinal-Stride/Html/colecao.html" class="meta">Ver todos</a> 
+        </div>
+ 
+        <div class="grid-products" aria-live="polite" style="margin-top:16px;">
+          <!-- Cards de exemplo: substitua srcs -->
+          <article class="prod-card" role="article">
+            <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial04.avif" alt="Tênis 1">
+            <div style="font-weight:800; margin-top:8px;">Stride Urban</div>
+            <div style="color:var(--accent); font-weight:900;">R$ 349,00</div>
+          </article>
+ 
+          <article class="prod-card">
+            <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial06.avif" alt="Tênis 2">
+            <div style="font-weight:800; margin-top:8px;">Runner Elite</div>
+            <div style="color:var(--accent); font-weight:900;">R$ 429,00</div>
+          </article>
+ 
+          <article class="prod-card">
+            <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial07.avif" alt="Tênis 3">
+            <div style="font-weight:800; margin-top:8px;">Trail Master</div>
+            <div style="color:var(--accent); font-weight:900;">R$ 399,00</div>
+          </article>
+ 
+          <article class="prod-card">
+            <img class="prod-thumb" src="../ProjetoFinal-Stride/Imgens/tenis.incial08.avif" alt="Tênis 4">
+            <div style="font-weight:800; margin-top:8px;">City Step</div>
+            <div style="color:var(--accent); font-weight:900;">R$ 279,00</div>
+          </article>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- FOOTER -->
+    <footer>
+      <div style="max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div>© <strong>Stride</strong> — Todos os direitos reservados</div>
+        <div style="display:flex; gap:14px;">
+          <a href="#" class="meta">Termos</a>
+          <a href="#" class="meta">Privacidade</a>
+          <a href="#" class="meta">Contato</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+ 
+  <!-- =========================
+       JAVASCRIPT: INTERAÇÕES
+       ========================= -->
+  <script>
+    // =========================
+    // CONFIGURAÇÕES INICIAIS
+    // =========================
+    const productCard = document.getElementById('productCard');
+    const prodImg = document.getElementById('prodImg');
+    const bgVideo = document.getElementById('bgVideo');
+ 
+    // Caso queira trocar dinamicamente o src do vídeo (fallback/data attr)
+    (function attachVideoSrc(){
+      try {
+        const dataVideo = bgVideo.getAttribute('data-video');
+        if(dataVideo && !bgVideo.querySelector('source').getAttribute('src')) {
+          bgVideo.querySelector('source').setAttribute('src', dataVideo);
+        }
+      } catch(e){}
+    })();
+ 
+    // =========================
+    // EFEITO 3D TILT (mouse)
+    // =========================
+    // Limpa transform quando mouse sair
+    function resetTilt(){
+      productCard.style.setProperty('--rx','0deg');
+      productCard.style.setProperty('--ry','0deg');
+      productCard.classList.remove('tilt');
+    }
+ 
+    // Calcula valores de rotação baseado na posição do mouse
+    productCard.addEventListener('mousemove', (e) => {
+      const rect = productCard.getBoundingClientRect();
+      const x = e.clientX - rect.left; // x dentro do card
+      const y = e.clientY - rect.top;  // y dentro do card
+ 
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+ 
+      // intensidade do efeito
+      const maxDeg = 8; // ajuste para mais/menos inclinação
+      const ry = ((x - cx) / cx) * maxDeg * -1; // gira no eixo Y
+      const rx = ((y - cy) / cy) * maxDeg;      // gira no eixo X
+ 
+      productCard.style.setProperty('--rx', rx + 'deg');
+      productCard.style.setProperty('--ry', ry + 'deg');
+ 
+      // leve rotação da imagem interna para profundidade
+      prodImg.style.transform = `translateZ(80px) rotateX(${rx/3}deg) rotateY(${ry/4}deg)`;
+      productCard.classList.add('tilt');
+    });
+ 
+    productCard.addEventListener('mouseleave', () => {
+      // anima retorno suave
+      productCard.style.transition = 'transform 500ms cubic-bezier(.2,.9,.3,1)';
+      prodImg.style.transition = 'transform 500ms cubic-bezier(.2,.9,.3,1)';
+      resetTilt();
+      setTimeout(()=> {
+        productCard.style.transition = '';
+        prodImg.style.transition = '';
+      },500);
+    });
+ 
+    // Toque em telas: pequena inclinação ao tocar
+    productCard.addEventListener('touchstart', (e) => {
+      productCard.classList.add('tilt');
+      prodImg.style.transform = 'translateZ(80px) rotateX(2deg)';
+    });
+    productCard.addEventListener('touchend', () => {
+      resetTilt();
+    });
+ 
+    // =========================
+    // BOTÕES E AÇÕES
+    // =========================
+    document.getElementById('watchLookbook').addEventListener('click', () => {
+      // Simples ação: reproduzir vídeo do lookbook (pode abrir modal)
+      // Aqui damos um focinho: pausamos bg e abrimos em nova aba (substitua por modal se quiser)
+      const src = bgVideo.querySelector('source')?.getAttribute('src') || bgVideo.getAttribute('data-video');
+      if(src) {
+        window.open(src, '_blank');
+      } else {
+        alert('Nenhum lookbook configurado — substitua o vídeo em data-video.');
+      }
+    });
+ 
+    document.getElementById('addCart').addEventListener('click', () => {
+      // Simulação simples: animação de confirmação
+      const btn = document.getElementById('addCart');
+      btn.textContent = 'Adicionado ✓';
+      btn.disabled = true;
+      setTimeout(()=> { btn.textContent = 'Adicionar ao carrinho'; btn.disabled = false; }, 1600);
+    });
+ 
+    // ================
+    // PERFORMANCE: desliga vídeo em conexões lentas (opcional)
+    // ================
+    (function adaptVideoForConnection(){
+      try {
+        const nav = navigator;
+        const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
+        if(conn && conn.saveData) {
+          // Se o usuário quer economizar dados, substituímos o vídeo por imagem estática
+          const poster = document.createElement('div');
+          poster.style.background = 'linear-gradient(180deg,#0b0b0b,#050505)';
+          poster.style.position = 'absolute';
+          poster.style.inset = 0;
+          poster.style.zIndex = 0;
+          poster.style.display = 'flex';
+          poster.style.alignItems = 'center';
+          poster.style.justifyContent = 'center';
+          poster.innerHTML = '<div style="color:rgba(255,255,255,0.6);font-weight:700;">Vídeo desativado (modo economia)</div>';
+          bgVideo.parentNode.insertBefore(poster, bgVideo);
+          bgVideo.pause();
+          bgVideo.removeAttribute('autoplay');
+          bgVideo.style.display = 'none';
+        }
+      } catch(e){}
+    })();
+ 
+    // =========================
+    // DICAS: carregar imagens com lazy (simples)
+    // =========================
+    // Substitua os src placeholders por data-src se quiser lazy-load avançado.
+    // Exemplo simples: se quiser, posso adaptar IntersectionObserver para lazy-load.
+ 
+    // =========================
+    // FIM
+    // =========================
+  </script>
 </body>
-
 </html>
+ 
+ 
