@@ -138,22 +138,7 @@
     .showcase {
       perspective:1200px;
     }
-    /* .product-card {
-      width:100%;
-      height:300px;
-      border-radius:18px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-      overflow:hidden;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      transform-style:preserve-3d;
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
-      border:1px solid rgba(255,255,255,0.04);
-    } */
- 
+    
     /* "produto" real (imagem) */
     .prod-img {
       width:62%;
@@ -275,20 +260,12 @@
         <div class="hero-text">
           <div class="eyebrow">Coleção Outono • 2025</div>
           <h1>Passada firme, imagem cinematográfica.</h1>
-          <p class="lead">Lançamento com foco em produto: closes, movimento e luz. Crie impacto em cada frame — ideal para edição de campanhas e vitrines digitais.</p>
- 
-          <div class="cta-row">
-            <a class="btn btn-primary" href="Html/colecao.html">Explorar coleção</a>
-            <button class="btn btn-ghost" id="watchLookbook">Ver lookbook</button>
-            <div class="meta">Entrega em 24h • Frete grátis acima de R$199</div>
-          </div>
+
+          <div class="meta">Entrega em 24h • Frete grátis acima de R$199</div>
+
  
           <!-- Pequena galeria / vantagens -->
-          <div style="display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;">
-            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; font-weight:700;">Close-up 3D</div>
-            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; font-weight:700;">Cor & Textura</div>
-            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; font-weight:700;">Motion</div>
-          </div>
+
  
           <!-- Secção de thumbnails (apenas amostra) -->
           <div style="margin-top:22px;">
@@ -446,7 +423,7 @@
     });
  
     // Toque em telas: pequena inclinação ao tocar
-    productCard.addEventListener('touchstart', (e) => {
+    productCard.addEventListener('touchstart', (e) => {'
       productCard.classList.add('tilt');
       prodImg.style.transform = 'translateZ(80px) rotateX(2deg)';
     });
