@@ -29,9 +29,7 @@ carrinhoAgrupado.forEach(item => {
   listaPedido.appendChild(tr);
   total += item.subtotal;
 });
- 
 totalPedido.textContent = `Total: R$ ${total.toFixed(2)}`;
- 
 // Captura envio do formulário
 document.getElementById("form-finalizar").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -39,5 +37,3 @@ document.getElementById("form-finalizar").addEventListener("submit", (e) => {
   localStorage.removeItem("carrinho");
   window.location.href = "stride.html"; // volta pra home
 });
- 
- 
