@@ -300,7 +300,7 @@
       </div>
  
       <!-- small hint to scroll -->
-      <div style="position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:40; color:rgba(255,255,255,0.7); font-weight:700;">
+      <div style="position:absolute; left:15%; transform:translateX(-50 ); bottom:18px; z-index:40; color:rgba(255,255,255,0.7); font-weight: 800;">
         Role para ver mais ↓
       </div>
     </section>
@@ -420,7 +420,7 @@
     });
  
     // Toque em telas: pequena inclinação ao tocar
-    productCard.addEventListener('touchstart', (e) => {'
+    productCard.addEventListener('touchstart', (e) => {
       productCard.classList.add('tilt');
       prodImg.style.transform = 'translateZ(80px) rotateX(2deg)';
     });
